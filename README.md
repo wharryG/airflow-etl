@@ -71,19 +71,21 @@ To stop: docker compose down (add -v to also wipe the database volume).
 📊 Report Sample
 ```
 === Superstore ETL Summary Report ===
+
 Generated: 2026-07-04 08:00:00
 --- Sales by Category ---
   Technology: $836,154.03
   Furniture: $742,000.18
   Office Supplies: $719,046.65
+
 --- Top 10 Customers ---
   Sean Miller: $25,043.05
   Tamara Chand: $19,005.42
-  ...
+
 --- Latest 6 Months ---
   2017-12: $245,639.21
   2017-11: $213,542.87
-  ...
+
 ```
 ✅ Data Quality & Fault Tolerance
 Idempotency: The table is truncated before each load, so re‑running the DAG produces identical results.
