@@ -57,14 +57,25 @@ git clone https://github.com/your-username/airflow-superstore-etl.git
 cd airflow-superstore-etl
 
 # 2. Set environment variables (adjust UID for your system)
+
 echo "AIRFLOW_UID=$(id -u)" > .env
+
 echo "AIRFLOW_GID=0" >> .env
+
 echo "POSTGRES_PASSWORD=airflow" >> .env
+
 echo "AIRFLOW__CORE__LOAD_EXAMPLES=false" >> .env
+
 
 # 3. Start everything
 docker compose up -d
-Open http://localhost:8080 (airflow / airflow). The DAG superstore_etl is loaded automatically. Toggle it on to start the daily schedule, or trigger a manual run. After a successful run, check ./data/summary.txt for the report.
+Open http://localhost:8080 (airflow / airflow). 
+
+The DAG superstore_etl is loaded automatically. 
+
+Toggle it on to start the daily schedule, or trigger a manual run. 
+
+After a successful run, check ./data/summary.txt for the report.
 
 To stop: docker compose down (add -v to also wipe the database volume).
 
