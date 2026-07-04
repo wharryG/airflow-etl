@@ -21,18 +21,11 @@ In a real‑world analytics team, manually downloading CSVs, cleaning data, and 
 ---
 
 ## 🏗️ Architecture
-┌──────────┐ ┌──────────────┐ ┌──────────────────┐
-│ CSV URL │────▶│ Airflow DAG │────▶│ PostgreSQL │
-│ (Source) │ │ (6 tasks) │ │ (Target DB) │
-└──────────┘ └──────────────┘ └──────────────────┘
-│
-▼
-┌─────────┐
-│ summary │
-│ .txt │
-└─────────┘
-
-text
+CSV URL -> AIRFLOW DAG -> POSTGRESQL
+(SOURCE) -> (6 TASKS) -> (TARGET DB)
+|
+v
+summary.txt
 
 All services (Airflow webserver, scheduler, worker, Redis, target PostgreSQL) run inside Docker containers, orchestrated via `docker‑compose`. The DAG:
 
@@ -59,7 +52,6 @@ All services (Airflow webserver, scheduler, worker, Redis, target PostgreSQL) ru
 
 ## 🚀 How to Run (on any machine with Docker)
 
-## bash
 # 1. Clone the repository
 git clone https://github.com/your-username/airflow-superstore-etl.git
 cd airflow-superstore-etl
@@ -77,7 +69,7 @@ Open http://localhost:8080 (airflow / airflow). The DAG superstore_etl is loaded
 To stop: docker compose down (add -v to also wipe the database volume).
 
 📊 Report Sample
-text
+```
 === Superstore ETL Summary Report ===
 Generated: 2026-07-04 08:00:00
 --- Sales by Category ---
@@ -92,26 +84,22 @@ Generated: 2026-07-04 08:00:00
   2017-12: $245,639.21
   2017-11: $213,542.87
   ...
+```
 ✅ Data Quality & Fault Tolerance
 Idempotency: The table is truncated before each load, so re‑running the DAG produces identical results.
-
 Automatic retries: Each task retries twice on failure with a 5‑minute delay — handling transient network or database issues gracefully.
-
 Verification gate: If row counts or revenue totals differ by more than $0.05 between the cleaned data and the database, the pipeline fails explicitly, preventing downstream consumers from using bad data.
-
 Atomic load: The truncate‑and‑insert pattern ensures no partial data is exposed to end users.
+
 
 🔮 Extensibility
 This project is built as a template for any CSV‑to‑PostgreSQL ETL. To adapt it for a real business:
-
 Replace the CSV URL and column mappings in dags/superstore_etl.py.
-
 Swap the target database to a cloud instance (AWS RDS, GCP Cloud SQL) by changing the connection string.
-
 Add email alerts via Mailtrap or a real SMTP server (configurable in docker-compose.yaml and Airflow connections).
-
 Orchestrate multiple DAGs (e.g., separate pipelines for inventory, finance) with the same Airflow instance.
+
 
 📬 About Me
 Data engineer passionate about building reliable, automated data infrastructure that turns raw information into business value.
-Let’s connect on LinkedIn or explore more on GitHub.
+Let’s connect on LinkedIn[https://www.linkedin.com/in/jan-wharry-lloyd-yap-3724b3337/] or explore more on GitHub[https://github.com/wharryG].
