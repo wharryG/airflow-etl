@@ -5,7 +5,11 @@
 ![Python](https://img.shields.io/badge/Python-3.9+-3776AB?logo=python)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-13-4169E1?logo=postgresql)
 
+## Project Overview
 **A fully automated data pipeline that transforms raw sales data into actionable business insights — running daily, error‑proof, and one command away.**
+
+## The Problem
+The analytics team spent 5 hours each week manually downloading CSVs and running Python scripts. And they also encountered difficulty in maintaining scripts and scheduling it. This project automates that process.
 
 ---
 
@@ -21,11 +25,8 @@ In a real‑world analytics team, manually downloading CSVs, cleaning data, and 
 ---
 
 ## 🏗️ Architecture
-CSV URL -> AIRFLOW DAG -> POSTGRESQL
-(SOURCE) -> (6 TASKS) -> (TARGET DB)
-|
-v
-summary.txt
+CSV → Python (Pandas) → PostgreSQL → Airflow DAG (daily)
+
 
 All services (Airflow webserver, scheduler, worker, Redis, target PostgreSQL) run inside Docker containers, orchestrated via `docker‑compose`. The DAG:
 
